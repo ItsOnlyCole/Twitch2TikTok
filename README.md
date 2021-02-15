@@ -2,9 +2,9 @@
 A python script that automatically edits clips into a video formats for Tik Tok.
 
 ### Requirements
-python3
-moviepy: pip install moviepy
-openCV: pip install opencv-python
+- python3
+- moviepy: pip install moviepy
+- openCV: pip install opencv-python
 
 ### How to use
 - Navigate to the directory
