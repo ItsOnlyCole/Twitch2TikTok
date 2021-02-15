@@ -24,3 +24,9 @@ focusClip = focusClip.set_position('center')
 ### Clips stack bottom to top
 final_clip = CompositeVideoClip([resolutionClip, backgroundClip, focusClip])
 final_clip.write_videofile(clipName+"TikTok.mp4")
+
+
+#Closing clips for cleanup
+resolutionClip.close()
+backgroundClip.close()
+focusClip.close()
