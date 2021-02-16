@@ -2,8 +2,6 @@ from moviepy.editor import *
 import sys
 import cv2
 
-clipFile = sys.argv[1]
-clipName = clipFile[0:-4]
 
 def blur(image):
     return cv2.GaussianBlur(image, (99,99), cv2.BORDER_DEFAULT)
@@ -26,6 +24,9 @@ def createFocusClip(originalClip):
 
 
 if __name__ == '__main__':
+    clipFile = sys.argv[1]
+    clipName = clipFile[0:-4]
+
     resolutionClip = createResolutionClip()
     backgroundClip = createBackgroundClip(clipFile)
     focusClip = createFocusClip(clipFile)
