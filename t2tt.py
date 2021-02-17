@@ -5,9 +5,9 @@ import argparse
 
 parser = argparse.ArgumentParser(description="Automate editing gameplay clips for Tik Tok")
 parser.add_argument('-f', '--file', metavar='', required=True, help="file to edit and render")
-parser.add_argument('-Sc', '--Start', metavar='', require=False, help="custom start time of clip")
-parser.add_argument('-Ec', '--End', metavar='', require=False, help="custom end time of clip")
-parser.add_argument('-a', '--automate', metavar='', required=False, action='store_true', help="automate script by having having file NAME_StartTime_EndTime.mp4")
+parser.add_argument('-Sc', '--Start', metavar='', help="custom start time of clip")
+parser.add_argument('-Ec', '--End', metavar='', help="custom end time of clip")
+parser.add_argument('-a', '--automate', action='store_true', help="automate script by having having file NAME_StartTime_EndTime.mp4")
 args = parser.parse_args()
 
 
@@ -32,6 +32,8 @@ def createFocusClip(originalClip):
 
 
 if __name__ == '__main__':
+    print(args.automate)
+    """
     clipFile = args.file
     clipName = clipFile[0:-4]
 
@@ -48,3 +50,4 @@ if __name__ == '__main__':
     resolutionClip.close()
     backgroundClip.close()
     focusClip.close()
+    """
