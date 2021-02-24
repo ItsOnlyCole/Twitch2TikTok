@@ -5,8 +5,8 @@ import argparse
 
 parser = argparse.ArgumentParser(description="Automate editing gameplay clips for Tik Tok")
 parser.add_argument('-f', '--file', metavar='', required=True, help="file to edit and render")
-parser.add_argument('-sc', '--start', metavar='', type=int, help="custom start time of clip")
-parser.add_argument('-ec', '--end', metavar='', type=int, help="custom end time of clip")
+parser.add_argument('-sc', '--start', metavar='', type=int, help="custom start time of clip in seconds")
+parser.add_argument('-ec', '--end', metavar='', type=int, help="custom end time of clip in seconds")
 parser.add_argument('-a', '--automate', action='store_true', help="automate script by having having file NAME_StartTime_EndTime.mp4")
 args = parser.parse_args()
 
@@ -35,8 +35,22 @@ def cutClip(originalClip, startTime, endTime):
 
 
 if __name__ == '__main__':
+    if(args.automate == True):
+        stringParse = args.file.split("_")
+        clipName = stringParse[0]
+        try:
+            args.start = stringParse[1]
+        except IndexError:
+            args.start = None
+        try:
+            endTimeParse = stringParse[2].split(".")
+            args.end = endTimeParse[0]
+        except IndexError:
+            args.end = None
+    else:
+        clipName = args.file[0:-4]
+
     originalClip = VideoFileClip(args.file)
-    clipName = args.file[0:-4]
 
     if((args.start != None) and (args.end != None)):
         originalClip = cutClip(originalClip, args.start, args.end)
