@@ -5,8 +5,8 @@ import argparse
 
 parser = argparse.ArgumentParser(description="Automate editing gameplay clips for Tik Tok")
 parser.add_argument('-f', '--file', metavar='', required=True, help="file to edit and render")
-parser.add_argument('-Sc', '--Start', metavar='', help="custom start time of clip")
-parser.add_argument('-Ec', '--End', metavar='', help="custom end time of clip")
+parser.add_argument('-sc', '--start', metavar='', type=int, help="custom start time of clip")
+parser.add_argument('-ec', '--end', metavar='', type=int, help="custom end time of clip")
 parser.add_argument('-a', '--automate', action='store_true', help="automate script by having having file NAME_StartTime_EndTime.mp4")
 args = parser.parse_args()
 
@@ -20,26 +20,34 @@ def createResolutionClip():
 
 #Setup background clip
 def createBackgroundClip(originalClip):
-    clip = VideoFileClip(originalClip).fx(vfx.resize, width=3413)
+    clip = originalClip.fx(vfx.resize, width=3413)
     clip = clip.fl_image(blur)
     clip = clip.set_position("center")
     return clip
 #Sets up focus clip
 def createFocusClip(originalClip):
-    clip = VideoFileClip(originalClip).fx(vfx.resize, width=1080)
+    clip = originalClip.fx(vfx.resize, width=1080)
     clip = clip.set_position("center")
     return clip
+#Cuts the clip
+def cutClip(originalClip, startTime, endTime):
+     return originalClip.subclip(startTime, endTime)
 
 
 if __name__ == '__main__':
-    print(args.automate)
-    """
-    clipFile = args.file
-    clipName = clipFile[0:-4]
+    originalClip = VideoFileClip(args.file)
+    clipName = args.file[0:-4]
+
+    if((args.start != None) and (args.end != None)):
+        originalClip = cutClip(originalClip, args.start, args.end)
+    elif((args.start != None) and (args.end == None)):
+        originalClip = cutClip(originalClip, args.start, originalClip.duration)
+    elif((args.start == None) and (args.end != None)):
+        originalClip = cutClip(originalClip, 0, args.end)
 
     resolutionClip = createResolutionClip()
-    backgroundClip = createBackgroundClip(clipFile)
-    focusClip = createFocusClip(clipFile)
+    backgroundClip = createBackgroundClip(originalClip)
+    focusClip = createFocusClip(originalClip)
 
     #Combines clips and renders
     ### Clips stack back to front
@@ -50,4 +58,3 @@ if __name__ == '__main__':
     resolutionClip.close()
     backgroundClip.close()
     focusClip.close()
-    """
