@@ -47,6 +47,8 @@ if __name__ == '__main__':
             args.end = endTimeParse[0]
         except IndexError:
             args.end = None
+            startTimeParse = stringParse[1].split(".")
+            args.start = startTimeParse[0]
     else:
         clipName = args.file[0:-4]
 
